@@ -22,6 +22,8 @@ gem 'bootstrap-will_paginate'
 
 gem 'whenever', :require => false
 
+gem 'rails_12factor', group: :production
+
 group :development, :test do
   gem 'byebug'
 end
