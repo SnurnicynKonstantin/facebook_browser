@@ -1,0 +1,17 @@
+div class='col-lg-10 col-lg-offset-1'
+  h1 = "Feed from #{@title}"
+  h4
+    - @posts.each do |post|
+      div class='well'
+        p class="text-info"
+          = post.author
+        p class="text-muted"
+          = post.created_time
+        p
+          = post.message
+        p
+          - if post.contents.exists?
+            - post.contents.where(media_type: 'image').each do |content|
+              = image_tag(content.media_url(:default))
+
+    = will_paginate @posts
