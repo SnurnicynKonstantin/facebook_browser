@@ -6,7 +6,7 @@ div class='col-lg-10 col-lg-offset-1'
         p class="text-info"
           = post.author
         p class="text-muted"
-          = post.created_time
+          = post.created_time.strftime("%Y-%m-%d %H:%M")
         p
           = post.message
         p
