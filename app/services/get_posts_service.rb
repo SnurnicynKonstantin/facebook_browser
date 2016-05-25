@@ -16,7 +16,10 @@ class GetPostsService
         since = group.posts.sorted_by_past.first.created_time.to_i
       end
 
-      posts =  @graph.get_object("#{group.group_id}/feed?fields=id,created_time,attachments{media,subattachments},from,message&since=#{since}&limit=#{LIMIT}")
+      posts =  @graph.get_connection(group.group_id, 'feed', { fields: ['id', 'created_time', 'from', 'message'],
+                                                               limit: LIMIT,
+                                                               since: since,
+                                                               attachments: ['media', 'subattachments'] })
 
       if posts
         parse_posts_data(posts, group.id)
