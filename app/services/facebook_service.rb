@@ -1,4 +1,4 @@
-class GetPostsService
+class FacebookService
   LIMIT = 100
 
   def initialize(token, current_group_id)
@@ -39,12 +39,14 @@ class GetPostsService
   def parse_posts_data(data, parent_id)
     data.each do |post|
       unless Post.find_by(post_id: post['id'])
-        new_post = Post.new(group_id: parent_id,
+        new_post = Post.new!(group_id: parent_id,
                             author: post['from']['name'],
                             message: post['message'],
                             post_id: post['id'],
                             created_time: post['created_time'])
+        p new_post
         if new_post.save && post['attachments']
+          p new_post
           get_attachment(new_post, post)
         end
       end
@@ -58,10 +60,10 @@ class GetPostsService
     attachment = data['attachments']['data']
     if attachment[0]['subattachments']
       attachment[0]['subattachments']['data'].each do |subattachments|
-        post.contents.create(remote_media_url: subattachments['media']['image']['src'], media_type: 'image')
+        post.subattachments.create!(remote_media_url: subattachments['media']['image']['src'], media_type: 'image')
       end
     elsif attachment
-      post.contents.create(remote_media_url: attachment[0]['media']['image']['src'], media_type: 'image')
+      post.subattachments.create!(remote_media_url: attachment[0]['media']['image']['src'], media_type: 'image')
     end
   end
 end
