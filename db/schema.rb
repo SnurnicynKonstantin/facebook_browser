@@ -11,18 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524082735) do
+ActiveRecord::Schema.define(version: 20160608152305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "contents", force: :cascade do |t|
-    t.integer  "post_id"
-    t.string   "media"
-    t.string   "media_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "group_id"
@@ -41,6 +33,15 @@ ActiveRecord::Schema.define(version: 20160524082735) do
     t.datetime "updated_at",   null: false
   end
 
+  add_index "posts", ["created_time"], name: "index_posts_on_created_time", using: :btree
   add_index "posts", ["group_id"], name: "index_posts_on_group_id", using: :btree
+
+  create_table "subattachments", force: :cascade do |t|
+    t.integer  "post_id"
+    t.string   "media"
+    t.string   "media_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

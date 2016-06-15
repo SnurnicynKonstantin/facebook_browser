@@ -6759,3 +6759,7 @@ button.close {
         color: #fff;
     }
 }
+
+.content-border {
+    height:60px;
+}

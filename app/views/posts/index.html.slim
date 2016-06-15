@@ -10,8 +10,7 @@ div class='col-lg-10 col-lg-offset-1'
         p
           = post.message
         p
-          - if post.contents.exists?
-            - post.contents.where(media_type: 'image').each do |content|
-              = image_tag(content.media_url(:default))
+          - post.subattachments.each do |content|
+            = image_tag(content.media_url(:size_300_x_300)) if ( content.media_type == 'image')
 
     = will_paginate @posts
